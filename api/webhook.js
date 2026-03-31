@@ -20,23 +20,7 @@ export default async function handler(req, res) {
 
   const text = JSON.parse(content).text?.trim();
 
-  // 调用 Claude API 回复
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'x-api-key': process.env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 1024,
-      messages: [{ role: 'user', content: text }],
-    }),
-  });
-
-  const data = await response.json();
-  const reply = data.content?.[0]?.text ?? '出错了，稍后再试';
+  const reply = `收到: ${text}`;
 
   // 发回飞书
   const token = await getToken();
